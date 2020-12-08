@@ -38,9 +38,12 @@ client.connect(err => {
   
 
   app.get('/organizations', (req, res) => {
-    organizationCollection.find({})
+    const select = req.query.search
+    organizationCollection.find(toLowerCase({name : {$regex : select }}))
     .toArray((err, documents) => {
+      console.log(documents)
         res.send(documents);
+        
     })
   })
 
